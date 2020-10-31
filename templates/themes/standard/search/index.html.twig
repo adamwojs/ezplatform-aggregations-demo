@@ -1,0 +1,65 @@
+{% extends '@ezdesign/pagelayout.html.twig' %}
+
+{% block stylesheets %}
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    {{ encore_entry_link_tags('welcome_page') }}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid container--wide">
+        <div class="row">
+            <div class="col-2">
+                <div class="py-4">
+                    <a href="{{ path('custom_search') }}">
+                        <img src="{{ asset('bundles/ezplatformadminui/img/ibexa-logo.svg') }}" alt="Ibexa" class="logo" />
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-10">
+                <div class="py-4">
+                    <form action="{{ path('custom_search') }}" method="GET" class="form-inline">
+                        <div class="input-group mb-3">
+                            <input type="search" name="query" class="input"
+                                   value="{{ app.request.query.get('query') }}"/>
+
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-primary">
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <hr/>
+
+        <div class="row">
+            <div class="col-3">
+                {% if results.aggregations.isEmpty() %}
+                    <p>Search engine doesn't support aggregations :-(</p>
+                {% else %}
+                    {% include '@ezdesign/search/_facets.html.twig' %}
+                {% endif %}
+            </div>
+
+            <div class="col-9">
+                <p class="text-right">Total count: {{ results.totalCount }}</p>
+
+                {% for hit in results %}
+                    <li class="list-group-item">
+                        {{ ez_render_content(hit.valueObject, {
+                            'viewType': 'line'
+                        }) }}
+                    </li>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
