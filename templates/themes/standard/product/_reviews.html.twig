@@ -1,0 +1,50 @@
+{% macro rate_as_stars(rate) %}
+    {% set rate = rate|round(0, 'floor') %}
+
+    {% for i in range(1, rate) %}&#11088;{% endfor %} <small>{{ rate }}/10</small>
+{% endmacro %}
+
+{% if reviews.aggregations.has('rating') %}
+    {% set stats = reviews.aggregations.get('rating') %}
+{% endif %}
+
+<div class="product-reviews row mt-4">
+    <div class="col-12">
+        <div class="product-reviews--header row mb-4">
+            <div class="col-6">
+                <h3>Product reviews</h3>
+            </div>
+
+            <div class="col-6 text-right">
+                {% if stats is defined %}
+                    <span>{{ _self.rate_as_stars(stats.getAvg) }} &nbsp; <small>({{  stats.getCount() }} reviews)</small></span>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="product-reviews--body">
+            {% if reviews is not empty %}
+                {% for item in reviews %}
+                    {% set review = item.valueObject %}
+
+                    {% set name = review.getFieldValue('author').text %}
+                    {% set rate = review.getFieldValue('rate').value %}
+
+                    <div class="media mb-2">
+                        <img src="https://i.pravatar.cc/60?u={{ name }}" class="mr-3" alt="{{ name }}'s avatar" />
+                        <div class="media-body">
+                            <a href="#">@{{ ez_render_field(review, 'author') }}</a>
+                            <p>{{ _self.rate_as_stars(rate) }}</p>
+
+                            <p>{{ ez_render_field(review, 'comment') }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-info" role="alert">
+                    There are no reviews.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
