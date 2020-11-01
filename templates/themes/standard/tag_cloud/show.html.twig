@@ -1,0 +1,39 @@
+{% extends '@ezdesign/pagelayout.html.twig' %}
+
+{% macro term_cloud(aggregation, min_fs = 10, max_fs = 40) %}
+    {% if not aggregation.isEmpty() %}
+        {% set max_val = max(aggregation.getEntries()|map(e => e.getCount())) %}
+        {% for e in aggregation.getEntries()|sort((a,b) => a.getKey() <=> b.getKey()) %}
+            {% set key = e.getKey() %}
+            {% set val = e.getCount() %}
+
+            {% set font_size = min_fs + (val / max_val) * (max_fs - min_fs) %}
+
+            <a href="#" style="font-size: {{ font_size }}px">
+                {{ key }} ({{ val }})
+            </a>
+        {% endfor %}
+    {% endif %}
+{% endmacro %}
+
+{% block stylesheets %}
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    {{ encore_entry_link_tags('welcome_page') }}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid container--wide p-4">
+        <div class="row">
+            <div class="col-6">
+                <h1>Tag cloud</h1>
+                <hr />
+
+                {{ _self.term_cloud(tags) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
