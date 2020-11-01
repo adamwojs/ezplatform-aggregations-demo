@@ -31,7 +31,7 @@ final class SearchController extends AbstractController
     }
 
     /**
-     * @Route("/custom_search", name="custom_search")
+     * @Route("/facet-search", name="custom_search")
      */
     public function searchAction(Request $request): Response
     {

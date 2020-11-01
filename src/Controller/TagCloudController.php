@@ -23,7 +23,7 @@ final class TagCloudController extends AbstractController
     }
 
     /**
-     * @Route("/tag_cloud", name="tag_cloud")
+     * @Route("/tag-cloud", name="tag_cloud")
      */
     public function renderAction(): Response
     {
