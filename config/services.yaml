@@ -24,5 +24,30 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    App\Search\FieldMapper\ContentLengthMapper:
+        arguments:
+            - '@ezpublish.spi.persistence.content_type_handler'
+            - '@ezpublish.search.common.field_registry'
+        tags:
+            - { name: ezpublish.search.solr.field_mapper.content_translation }
+
+    App\Search\Query\Aggregation\ElasticSearch\Visitor\ContentLengthStatsAggregationVisitor:
+        tags:
+            - { name: ezplatform.search.elasticsearch.query.content.aggregation_visitor }
+            - { name: ezplatform.search.elasticsearch.query.location.aggregation_visitor }
+
+    App\Search\Query\Aggregation\ElasticSearch\ResultExtractor\ContentLengthStatsResultExtractor:
+        tags:
+            - { name: ezplatform.search.elasticsearch.query.content.aggregation_result_extractor }
+            - { name: ezplatform.search.elasticsearch.query.location.aggregation_result_extractor }
+
+    App\Search\Query\Aggregation\Solr\Visitor\ContentLengthStatsVisitor:
+        tags:
+            - { name: ezplatform.search.solr.query.content.aggregation_visitor }
+            - { name: ezplatform.search.solr.query.location.aggregation_visitor }
+
+    App\Search\Query\Aggregation\Solr\ResultExtractor\ContentLengthStatsResultExtractor:
+        tags:
+            - { name: ezplatform.search.solr.query.content.aggregation_result_extractor }
+            - { name: ezplatform.search.solr.query.location.aggregation_result_extractor }
+
