@@ -31,7 +31,7 @@ services:
         tags:
             - { name: ezpublish.search.solr.field_mapper.content_translation }
 
-    App\Search\Query\Aggregation\ElasticSearch\Visitor\ContentLengthStatsAggregationVisitor:
+    App\Search\Query\Aggregation\ElasticSearch\Visitor\ContentLengthStatsVisitor:
         tags:
             - { name: ezplatform.search.elasticsearch.query.content.aggregation_visitor }
             - { name: ezplatform.search.elasticsearch.query.location.aggregation_visitor }
