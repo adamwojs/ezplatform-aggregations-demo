@@ -10,30 +10,19 @@ use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Aggregation\RawStatsAggregation;
 use eZ\Publish\API\Repository\Values\Content\Query\Aggregation\RawTermAggregation;
 use eZ\Publish\API\Repository\Values\Content\Search\AggregationResult\TermAggregationResultEntry;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-final class LocationMetricsCommand extends Command
+final class RepositoryMetricsCommand extends AbstractRepositoryCommand
 {
-    /** @var \eZ\Publish\API\Repository\Repository */
-    private $repository;
-
     public function __construct(Repository $repository)
     {
-        parent::__construct('ezplatform:aggregation-demo:metrics');
-
-        $this->repository = $repository;
+        parent::__construct($repository, 'ezplatform:aggregation-demo:metrics');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
-        $this->repository->getPermissionResolver()->setCurrentUserReference(
-            $this->repository->getUserService()->loadUserByLogin('admin')
-        );
-
         $results = $this->repository->getSearchService()->findLocations(
             $this->createLocationMetricsQuery()
         );

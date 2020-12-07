@@ -11,28 +11,20 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class SortSpecDemoCommand extends Command
+final class SortSpecDemoCommand extends AbstractRepositoryCommand
 {
-    /** @var \eZ\Publish\API\Repository\Repository */
-    private $repository;
-
     /** @var \App\QueryType\SortSpecDemoQueryType */
     private $sortSpecDemoQueryType;
 
     public function __construct(Repository $repository, SortSpecDemoQueryType $sortSpecDemoQueryType)
     {
-        parent::__construct('ezplatform:sort-spec-demo');
+        parent::__construct($repository, 'ezplatform:sort-spec-demo');
 
-        $this->repository = $repository;
         $this->sortSpecDemoQueryType = $sortSpecDemoQueryType;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
-        $this->repository->getPermissionResolver()->setCurrentUserReference(
-            $this->repository->getUserService()->loadUserByLogin('admin')
-        );
-
         $query = $this->sortSpecDemoQueryType->getQuery([
             'sort_by' => 'content_id'
         ]);
