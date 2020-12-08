@@ -17,7 +17,9 @@
 
             <div class="col-6 text-right">
                 {% if stats is defined %}
-                    <span>{{ _self.rate_as_stars(stats.getAvg) }} &nbsp; <small>({{  stats.getCount() }} reviews)</small></span>
+                    <span>{{ _self.rate_as_stars(stats.getAvg()) }} &nbsp;
+                    <small>({{ stats.getAvg()|number_format(2) }} based on {{  stats.getCount() }} reviews)</small>
+                    </span>
                 {% endif %}
             </div>
         </div>
