@@ -36,6 +36,7 @@
         "ezsystems/ezplatform-graphql": "~2.2.0",
         "ezsystems/ezplatform-http-cache": "~2.2.0",
         "ezsystems/ezplatform-http-cache-fastly": "~2.0.0",
+        "ezsystems/ezplatform-icons": "^1.0",
         "ezsystems/ezplatform-kernel": "~1.2.0",
         "ezsystems/ezplatform-matrix-fieldtype": "~2.1.0",
         "ezsystems/ezplatform-page-builder": "~2.2.0",

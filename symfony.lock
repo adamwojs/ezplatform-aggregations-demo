@@ -111,9 +111,6 @@
     "doctrine/persistence": {
         "version": "2.0.0"
     },
-    "doctrine/reflection": {
-        "version": "1.2.1"
-    },
     "doctrine/sql-formatter": {
         "version": "1.1.1"
     },
@@ -197,6 +194,9 @@
     },
     "ezsystems/ezplatform-http-cache-fastly": {
         "version": "v2.0.0"
+    },
+    "ezsystems/ezplatform-icons": {
+        "version": "v1.0.0"
     },
     "ezsystems/ezplatform-kernel": {
         "version": "v1.2.0"
@@ -336,6 +336,12 @@
     "knplabs/knp-menu-bundle": {
         "version": "v3.0.0"
     },
+    "laminas/laminas-zendframework-bridge": {
+        "version": "1.1.1"
+    },
+    "lcobucci/clock": {
+        "version": "2.0.0"
+    },
     "lcobucci/jwt": {
         "version": "3.3.3"
     },
@@ -460,7 +466,7 @@
         "version": "2.0.1"
     },
     "php": {
-        "version": "7.3"
+        "version": "7.4"
     },
     "php-http/client-common": {
         "version": "2.3.0"
@@ -1055,6 +1061,9 @@
     },
     "twig/twig": {
         "version": "v3.1.0"
+    },
+    "webimpress/safe-writer": {
+        "version": "2.1.0"
     },
     "webmozart/assert": {
         "version": "1.9.1"
