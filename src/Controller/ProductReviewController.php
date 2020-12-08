@@ -25,11 +25,15 @@ final class ProductReviewController extends AbstractController
 
     public function renderReviews(int $locationId): Response
     {
-        $results = $this->searchService->findContent(
-            $this->queryType->getQuery([
-                'product' => $locationId
-            ])
-        );
+        $query = $this->queryType->getQuery([
+            'product' => $locationId
+        ]);
+
+        // dump($query);
+
+        $results = $this->searchService->findContent($query);
+
+        // dump($results)
 
         return $this->render(
             '@ezdesign/product/_reviews.html.twig',
