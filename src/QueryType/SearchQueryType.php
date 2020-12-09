@@ -36,7 +36,7 @@ final class SearchQueryType extends OptionsResolverBasedQueryType
         $query->aggregations[] = new ContentTypeTermAggregation('content_types');
         // (!) Single query can compute multiple aggregations as once
 //        $query->aggregations[] = new SectionTermAggregation('sections');
-
+//
 //        $now = new DateTimeImmutable();
 //
 //        $query->aggregations[] = new DateMetadataRangeAggregation(

@@ -36,11 +36,11 @@ final class TagCloudController extends AbstractController
         $query->filter = new ContentTypeIdentifier('code_snippet');
         $query->aggregations[] = $aggregation;
 
-        // dump($query);
+//         dump($query);
 
         $results = $this->searchService->findContent($query);
 
-        // dump($results);
+//         dump($results);
 
         return $this->render('@ezdesign/tag_cloud/show.html.twig', [
             'tags' => $results->aggregations->get('tags'),

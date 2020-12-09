@@ -39,7 +39,7 @@ final class SearchController extends AbstractController
             $this->getQueryParameters($request)
         );
 
-        // dump($searchQuery);
+//         dump($searchQuery);
 
         $results = $this->searchService->findContent($searchQuery);
 
