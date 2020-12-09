@@ -5,9 +5,10 @@
         Content by <strong>Content Type</strong>
     </div>
 
+    {% if not content_by_content_type.isEmpty() %}
     <div class="list-group list-group-flush">
         {% for content_type, count in content_by_content_type %}
-            {% set href = path('custom_search', app.request.query|merge({'content_type': content_type.id})) %}
+            {% set href = path('custom_search', app.request.query|merge({'content_type': content_type.id, 'offset': 0})) %}
 
             <a href="{{ href }}"
                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
@@ -16,20 +17,26 @@
             </a>
         {% endfor %}
     </div>
+    {% else %}
+    <div class="card-body">
+        No filters.
+    </div>
+    {% endif %}
 </div>
 
 {# (!) Check if result of "sections" aggregation exists #}
 {% if results.aggregations.has('sections') %}
     {% set content_by_section = results.aggregations.get('sections') %}
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-header">
             Content by <strong>Section</strong>
         </div>
 
+        {% if not content_by_section.isEmpty() %}
         <div class="list-group list-group-flush">
             {% for section, count in content_by_section %}
-                {% set href = path('custom_search', app.request.query|merge({'section': section.id})) %}
+                {% set href = path('custom_search', app.request.query|merge({'section': section.id, 'offset': 0})) %}
 
                 <a href="{{ href }}"
                    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
@@ -39,5 +46,40 @@
                 </a>
             {% endfor %}
         </div>
+        {% else %}
+            <div class="card-body">
+                No filters.
+            </div>
+        {% endif %}
     </div>
 {% endif %}
+
+{% if results.aggregations.has('since') %}
+    {% set content_by_date = results.aggregations.get('since') %}
+
+    <div class="card mb-3">
+        <div class="card-header">
+            Content by <strong>Creation date</strong>
+        </div>
+
+        <div class="list-group list-group-flush">
+            {% for range, count in content_by_date %}
+                {% set days = range.getFrom().diff(range.getTo()).days %}
+                {% set href = path('custom_search', app.request.query|merge({'since': days, 'offset': 0 })) %}
+
+                <a href="{{ href }}"
+                   class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    {{ range.getFrom()|ez_datetime_diff(range.getTo()) }}
+
+                    <span class="badge badge-primary badge-pill">
+                        {{ count }}
+                    </span>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
+<p class="text-right">
+    <a href="{{ path('custom_search', { query: app.request.get('query') }) }}">Clear filters</a>
+</p>

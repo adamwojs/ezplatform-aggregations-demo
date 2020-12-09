@@ -54,11 +54,37 @@
 
                 {% for hit in results %}
                     <li class="list-group-item">
-                        {{ ez_render_content(hit.valueObject, {
-                            'viewType': 'line'
-                        }) }}
+                        {% set content = hit.valueObject %}
+                        {% set index = app.request.get('offset', 0) + loop.index %}
+
+                        <a href="{{ ez_path(content) }}">
+                            {{ index }}. <string>{{ ez_content_name(content) }}</string>
+                        </a>
+
+                        <p style="font-size: 14px !important;" class="mt-2">
+                            Content type: {{ content.getContentType().getName() }} &bull;
+                            Created at {{ content.versionInfo.creationDate | date }}
+                        </p>
                     </li>
                 {% endfor %}
+
+                <p class="text-right mt-4">
+                    {% set offset = app.request.get('offset', 0) %}
+
+                    {% if offset >= 10 %}
+                        <a href="{{ path('custom_search', { offset: app.request.get('offset') - 10 }) }}">
+                            &larr;
+                            Previous page
+                        </a>
+
+                        &nbsp;&bull;&nbsp;
+                    {% endif %}
+
+                    <a href="{{ path('custom_search', { offset: app.request.get('offset') + 10 }) }}">
+                        Next page
+                        &rarr;
+                    </a>
+                </p>
             </div>
         </div>
     </div>

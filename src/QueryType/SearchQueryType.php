@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\QueryType;
 
 use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\Aggregation;
+use eZ\Publish\API\Repository\Values\Content\Query\Aggregation\ContentTypeTermAggregation;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\Core\QueryType\OptionsResolverBasedQueryType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,6 +18,8 @@ final class SearchQueryType extends OptionsResolverBasedQueryType
             'query' => '',
             'content_type' => null,
             'section' => null,
+            'since' => '',
+            'offset' => 0,
             'limit' => 10
         ]);
     }
@@ -31,12 +33,26 @@ final class SearchQueryType extends OptionsResolverBasedQueryType
         }
 
         // (!) Attach aggregation definition to query
-        $query->aggregations[] = new Aggregation\ContentTypeTermAggregation('content_types');
+        $query->aggregations[] = new ContentTypeTermAggregation('content_types');
         // (!) Single query can compute multiple aggregations as once
-        // $query->aggregations[] = new Aggregation\SectionTermAggregation('sections');
+//        $query->aggregations[] = new SectionTermAggregation('sections');
+
+//        $now = new DateTimeImmutable();
+//
+//        $query->aggregations[] = new DateMetadataRangeAggregation(
+//            'since',
+//            DateMetadataRangeAggregation::PUBLISHED,
+//            [
+//                new Range($now->sub(new DateInterval('P1D')), $now),
+//                new Range($now->sub(new DateInterval('P7D')), $now),
+//                new Range($now->sub(new DateInterval('P14D')), $now),
+//                new Range($now->sub(new DateInterval('P30D')), $now),
+//            ]
+//        );
 
         $query->filter = $this->buildFilters($parameters);
-        $query->limit = $parameters['limit'];
+        $query->limit = (int) $parameters['limit'];
+        $query->offset = (int)$parameters['offset'];
 
         return $query;
     }
@@ -51,6 +67,14 @@ final class SearchQueryType extends OptionsResolverBasedQueryType
 
 //        if ($parameters['section'] !== null) {
 //            $filters[] = new Criterion\SectionId($parameters['section']);
+//        }
+//
+//        if (!empty($parameters['since'])) {
+//            $filters[] =  new Criterion\DateMetadata(
+//                Criterion\DateMetadata::CREATED,
+//                Criterion\Operator::GTE,
+//                strtotime("-" . $parameters['since'] . ' days')
+//            );
 //        }
 
         if (empty($filters)) {

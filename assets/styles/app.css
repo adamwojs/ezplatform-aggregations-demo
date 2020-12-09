@@ -1,3 +1,7 @@
 body {
     background-color: white;
 }
+
+.text-small {
+    font-size: 0.9em !important;
+}

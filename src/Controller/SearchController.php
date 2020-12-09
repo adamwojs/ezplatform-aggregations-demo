@@ -43,7 +43,7 @@ final class SearchController extends AbstractController
 
         $results = $this->searchService->findContent($searchQuery);
 
-        // dump($results);
+//         dump($results);
 
         return $this->render('@ezdesign/search/index.html.twig', [
             'results' => $results
